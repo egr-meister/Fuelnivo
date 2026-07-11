@@ -10,6 +10,15 @@ jobs:
     name: Build signed release APK and AAB
     runs-on: ubuntu-latest
 
+    # Signing values are exposed to every step (including the release unit-test
+    # step, which configures the release variant) so the build's signing guard
+    # is satisfied throughout the job.
+    env:
+      ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/fuelnivo-release-key.p12
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+      ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
