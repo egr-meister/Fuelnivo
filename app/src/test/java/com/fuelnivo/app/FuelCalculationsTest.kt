@@ -134,6 +134,8 @@ class FuelCalculationsTest {
 
     @Test
     fun longestInterval_isCorrect() {
-        assertEquals(10L, FuelCalculations.longestIntervalDays(standardRefills()))
+        // Refill dates: Jan 1 -> Jan 10 -> Jan 15 -> Jan 20.
+        // Gaps: 9, 5, 5 days. Longest = 9.
+        assertEquals(9L, FuelCalculations.longestIntervalDays(standardRefills()))
     }
 }
