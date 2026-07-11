@@ -13,8 +13,10 @@ jobs:
     # Signing values are exposed to every step (including the release unit-test
     # step, which configures the release variant) so the build's signing guard
     # is satisfied throughout the job.
+    # Job-level env is available to every step. The `runner` context is NOT
+    # valid here, so the keystore path uses `github.workspace` instead.
     env:
-      ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/fuelnivo-release-key.p12
+      ANDROID_KEYSTORE_FILE: ${{ github.workspace }}/fuelnivo-release-key.p12
       ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
       ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
       ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
@@ -49,25 +51,15 @@ jobs:
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/fuelnivo-release-key.p12"
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$ANDROID_KEYSTORE_FILE"
 
       - name: Run unit tests
         run: ./gradlew testReleaseUnitTest --no-daemon
 
       - name: Build signed release APK
-        env:
-          ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/fuelnivo-release-key.p12
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: ./gradlew assembleRelease --no-daemon
 
       - name: Build signed release AAB
-        env:
-          ANDROID_KEYSTORE_FILE: ${{ runner.temp }}/fuelnivo-release-key.p12
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: ./gradlew bundleRelease --no-daemon
 
       - name: Locate release APK
