@@ -51,7 +51,15 @@ jobs:
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         run: |
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$ANDROID_KEYSTORE_FILE"
+          # Strip any whitespace/newlines that may have been introduced when the
+          # secret value was pasted, then decode. Fail loudly if the result is
+          # not a valid PKCS12 keystore.
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | tr -d '[:space:]' | base64 --decode > "$ANDROID_KEYSTORE_FILE"
+          if [ ! -s "$ANDROID_KEYSTORE_FILE" ]; then
+            echo "Decoded keystore is empty — check the ANDROID_KEYSTORE_BASE64 secret." >&2
+            exit 1
+          fi
+          echo "Keystore decoded: $(wc -c < "$ANDROID_KEYSTORE_FILE") bytes"
 
       - name: Run unit tests
         run: ./gradlew testReleaseUnitTest --no-daemon
