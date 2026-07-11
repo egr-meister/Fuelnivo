@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Local backup rules. Fuelnivo stores everything in DataStore Preferences and
+   has no cloud component; standard local backup of the app's data files is
+   allowed by the platform default behavior.
+-->
+<full-backup-content>
+    <include domain="file" path="datastore/" />
+</full-backup-content>

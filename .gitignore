@@ -1,0 +1,19 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Keystore / signing material must never be committed
+*.jks
+*.keystore
+*.p12
+keystore.properties
+signing.properties
+release-key*.p12
+fuelnivo-release-key.p12

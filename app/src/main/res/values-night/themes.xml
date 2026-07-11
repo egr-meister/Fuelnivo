@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Fuelnivo" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/tank_black</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.Fuelnivo.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_tank</item>
+        <item name="postSplashScreenTheme">@style/Theme.Fuelnivo</item>
+    </style>
+</resources>

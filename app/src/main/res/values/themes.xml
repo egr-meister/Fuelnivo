@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. Compose supplies the real colors; this theme
+         only configures window-level behavior. -->
+    <style name="Theme.Fuelnivo" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- Splash screen theme using the AndroidX core-splashscreen library. -->
+    <style name="Theme.Fuelnivo.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_tank</item>
+        <item name="postSplashScreenTheme">@style/Theme.Fuelnivo</item>
+    </style>
+</resources>

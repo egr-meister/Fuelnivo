@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fuel_amber">#F4A11A</color>
+    <color name="deep_amber">#D98608</color>
+    <color name="warm_yellow">#FFC857</color>
+    <color name="tank_black">#17191C</color>
+    <color name="deep_graphite">#24272B</color>
+    <color name="pale_fuel_panel">#FFF4D8</color>
+    <color name="app_background">#F3F1EC</color>
+    <color name="surface_white">#FFFFFF</color>
+    <color name="splash_background">#17191C</color>
+    <color name="ic_launcher_background">#24272B</color>
+</resources>
