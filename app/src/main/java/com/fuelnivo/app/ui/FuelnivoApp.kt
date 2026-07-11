@@ -13,7 +13,11 @@ import androidx.compose.material.icons.filled.DirectionsCar
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -45,17 +49,30 @@ fun FuelnivoApp(repository: FuelnivoRepository) {
     val viewModel: MainViewModel = viewModel(factory = MainViewModel.Factory(repository))
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val navController = rememberNavController()
+    // Remembers that the user chose "Set Up Vehicle" during onboarding. The
+    // navigation is deferred until the NavHost below is actually composed,
+    // because navigating on a NavController with no graph yet would crash.
+    var pendingVehicleSetup by remember { mutableStateOf(false) }
 
     if (!state.loaded) return
 
     if (!state.settings.onboardingCompleted) {
         OnboardingScreen(
             onFinish = { setUpVehicle ->
+                pendingVehicleSetup = setUpVehicle
                 viewModel.completeOnboarding()
-                if (setUpVehicle) navController.navigate(Routes.ADD_VEHICLE)
             }
         )
         return
+    }
+
+    // Once the main UI (and its NavHost) is present, honor a pending request to
+    // open the Add Vehicle screen exactly once.
+    LaunchedEffect(pendingVehicleSetup) {
+        if (pendingVehicleSetup) {
+            pendingVehicleSetup = false
+            navController.navigate(Routes.ADD_VEHICLE)
+        }
     }
 
     val backStackEntry by navController.currentBackStackEntryAsState()
