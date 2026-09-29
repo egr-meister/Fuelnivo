@@ -156,9 +156,9 @@ Because every value is entered by hand, results depend on data quality. Consumpt
 ## Requirements
 
 - **JDK 17**
-- Android SDK with **API 35** platform and **Build Tools 35.0.0**
-- `compileSdk = 35`, `targetSdk = 35`, `minSdk = 24`
-- A stable Android Gradle Plugin compatible with API 35 (AGP 8.7.x) and Gradle 8.11.1
+- Android SDK with **API 36** platform and **Build Tools 36.0.0**
+- `compileSdk = 36`, `targetSdk = 36`, `minSdk = 24`
+- A stable Android Gradle Plugin compatible with API 36 (AGP 8.11.x) and Gradle 8.13
 
 ### 16 KB memory page-size compatibility
 
@@ -167,7 +167,7 @@ Fuelnivo is pure Kotlin/Compose with no third-party native binaries, so the rele
 ## Open in Android Studio
 
 1. Open the project root in a recent Android Studio (Ladybug or newer).
-2. Android Studio regenerates the Gradle wrapper automatically. If you build from the command line first and `gradle/wrapper/gradle-wrapper.jar` is missing, run once with an installed Gradle 8.9+: `gradle wrapper --gradle-version 8.11.1`.
+2. Android Studio regenerates the Gradle wrapper automatically. If you build from the command line first and `gradle/wrapper/gradle-wrapper.jar` is missing, run once with an installed Gradle 8.13+: `gradle wrapper --gradle-version 8.13`.
 3. Let Gradle sync, then run the `app` configuration.
 
 ## Build a debug APK
@@ -219,7 +219,7 @@ Create the base64 with: `base64 -w0 fuelnivo-release-key.p12 > keystore.b64` (ma
 
 ## GitHub Actions
 
-`.github/workflows/android-build.yml` runs on push to `main` and via manual dispatch. It checks out the repo, sets up JDK 17 and the Android SDK, installs Platform 35 and Build Tools 35.0.0, restores Gradle caches, decodes `ANDROID_KEYSTORE_BASE64` into a temporary PKCS12 file on the disposable runner, provides the signing secrets as environment variables, runs unit tests, and builds the **signed release APK and AAB**. It never prints passwords or secret contents, and does not run an emulator smoke test.
+`.github/workflows/android-build.yml` runs on push to `main` and via manual dispatch. It checks out the repo, sets up JDK 17 and the Android SDK, installs Platform 36 and Build Tools 36.0.0, restores Gradle caches, decodes `ANDROID_KEYSTORE_BASE64` into a temporary PKCS12 file on the disposable runner, provides the signing secrets as environment variables, runs unit tests, and builds the **signed release APK and AAB**. It never prints passwords or secret contents, and does not run an emulator smoke test.
 
 ### apksigner verification
 
@@ -257,7 +257,7 @@ The signing certificate must **not** contain `CN=Android Debug`. Repeat the whol
 
 ## Local launch checklist
 
-Test: first launch with empty storage; onboarding and skip; create one and multiple vehicles; switch/edit/delete vehicles (including the active one); refills in liters, gallons, km, miles; partial and full-tank refills; several partials between full tanks; missed-refill exclusion; entering total cost and price per unit and the auto-fill helper; notes; edit/delete refill; refill detail; history empty and with many records; history filters and sort; statistics with insufficient and valid data; monthly statistics empty and with data; month navigation; trigger and dismiss the reminder; add a refill and confirm the reminder resets; change interval; disable reminder; change currency; change fuel and distance units with conversion; reset active-vehicle records; reset all data; relaunch; launch in airplane mode; confirm no `INTERNET` permission and no runtime permission dialogs; confirm no OBD/Bluetooth behavior; inspect `adb logcat` for crashes; verify the release certificate; verify the AAB is produced; verify API 35 configuration and 16 KB page-size compatibility.
+Test: first launch with empty storage; onboarding and skip; create one and multiple vehicles; switch/edit/delete vehicles (including the active one); refills in liters, gallons, km, miles; partial and full-tank refills; several partials between full tanks; missed-refill exclusion; entering total cost and price per unit and the auto-fill helper; notes; edit/delete refill; refill detail; history empty and with many records; history filters and sort; statistics with insufficient and valid data; monthly statistics empty and with data; month navigation; trigger and dismiss the reminder; add a refill and confirm the reminder resets; change interval; disable reminder; change currency; change fuel and distance units with conversion; reset active-vehicle records; reset all data; relaunch; launch in airplane mode; confirm no `INTERNET` permission and no runtime permission dialogs; confirm no OBD/Bluetooth behavior; inspect `adb logcat` for crashes; verify the release certificate; verify the AAB is produced; verify API 36 configuration and 16 KB page-size compatibility.
 
 Watch `logcat` for `ClassNotFoundException`, `NoSuchMethodError`, serialization exceptions, DataStore corruption crashes, `NumberFormatException`, date-parsing crashes, navigation-argument crashes, division by zero, null active-vehicle errors, missing-refill errors, R8 errors, and signing misconfiguration.
 
