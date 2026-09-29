@@ -45,6 +45,11 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          # Pin the provisioned Gradle to a version compatible with AGP 8.11.x.
+          # The runner's default Gradle (9.x) is not compatible with AGP 8.11
+          # and would fail while generating the wrapper / configuring the build.
+          gradle-version: "8.13"
 
       - name: Generate Gradle wrapper (if missing)
         run: |
